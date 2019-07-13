@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Microsoft.Extensions.DependencyInjection", "TheDialgaTeam.Microsoft.Extensions.DependencyInjection\src\TheDialgaTeam.Microsoft.Extensions.DependencyInjection.csproj", "{3CA56091-5054-490B-9B7C-9D22768359D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.Node.Seed", "Tuckfirtle.Node.Seed\src\Tuckfirtle.Node.Seed.csproj", "{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Depedencies", "Depedencies", "{52602772-C53F-4FCB-9829-F8542A184075}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CA56091-5054-490B-9B7C-9D22768359D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA56091-5054-490B-9B7C-9D22768359D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA56091-5054-490B-9B7C-9D22768359D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA56091-5054-490B-9B7C-9D22768359D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3CA56091-5054-490B-9B7C-9D22768359D8} = {52602772-C53F-4FCB-9829-F8542A184075}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D552F63B-BFF5-4261-97D2-5329C6AF326F}
+	EndGlobalSection
+EndGlobal
