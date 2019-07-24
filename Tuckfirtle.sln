@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Microsoft.Extensions.DependencyInjection", "TheDialgaTeam.Microsoft.Extensions.DependencyInjection\src\TheDialgaTeam.Microsoft.Extensions.DependencyInjection.csproj", "{3CA56091-5054-490B-9B7C-9D22768359D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.Node.Seed", "Tuckfirtle.Node.Seed\src\Tuckfirtle.Node.Seed.csproj", "{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Depedencies", "Depedencies", "{52602772-C53F-4FCB-9829-F8542A184075}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.Node", "Tuckfirtle.Node\src\Tuckfirtle.Node.csproj", "{34EDAD66-60E1-45D9-8299-775E3DB64589}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.Core", "Tuckfirtle.Core\src\Tuckfirtle.Core.csproj", "{921728D9-6898-4261-BE47-0928E54C21E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Core.Logger", "TheDialgaTeam.Core.Logger\src\TheDialgaTeam.Core.Logger.csproj", "{9089CEA0-7B3E-4DBD-999D-71CD50A2EAA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +23,25 @@ Global
 		{3CA56091-5054-490B-9B7C-9D22768359D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CA56091-5054-490B-9B7C-9D22768359D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CA56091-5054-490B-9B7C-9D22768359D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFF5DB85-D8E7-4BF1-8C92-03BAB4A3D12B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34EDAD66-60E1-45D9-8299-775E3DB64589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34EDAD66-60E1-45D9-8299-775E3DB64589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34EDAD66-60E1-45D9-8299-775E3DB64589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34EDAD66-60E1-45D9-8299-775E3DB64589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{921728D9-6898-4261-BE47-0928E54C21E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{921728D9-6898-4261-BE47-0928E54C21E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{921728D9-6898-4261-BE47-0928E54C21E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{921728D9-6898-4261-BE47-0928E54C21E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9089CEA0-7B3E-4DBD-999D-71CD50A2EAA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9089CEA0-7B3E-4DBD-999D-71CD50A2EAA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9089CEA0-7B3E-4DBD-999D-71CD50A2EAA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9089CEA0-7B3E-4DBD-999D-71CD50A2EAA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3CA56091-5054-490B-9B7C-9D22768359D8} = {52602772-C53F-4FCB-9829-F8542A184075}
+		{9089CEA0-7B3E-4DBD-999D-71CD50A2EAA1} = {52602772-C53F-4FCB-9829-F8542A184075}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D552F63B-BFF5-4261-97D2-5329C6AF326F}

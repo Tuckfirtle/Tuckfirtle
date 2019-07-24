@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Tuckfirtle.Node</AssemblyName>
+    <RootNamespace>Tuckfirtle.Node</RootNamespace>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Tuckfirtle.Node.Program</StartupObject>
+    <ApplicationIcon></ApplicationIcon>
+    <PackageId>Tuckfirtle.Node</PackageId>
+    <Version>0.0.1.0</Version>
+    <Authors>Yong Jian Ming</Authors>
+    <Company>Tuckfirtle</Company>
+    <Product>Tuckfirtle.Node</Product>
+    <Description>Tuckfirtle node.</Description>
+    <PackageProjectUrl>https://github.com/tuckfirtle/Tuckfirtle.Node</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tuckfirtle/Tuckfirtle.Node</RepositoryUrl>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TheDialgaTeam.Microsoft.Extensions.DependencyInjection\src\TheDialgaTeam.Microsoft.Extensions.DependencyInjection.csproj" />
+  </ItemGroup>
+
+</Project>
