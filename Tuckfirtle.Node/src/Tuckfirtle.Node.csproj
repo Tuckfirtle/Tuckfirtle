@@ -37,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\TheDialgaTeam.Core.Logger.DependencyInjection\src\TheDialgaTeam.Core.Logger.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\TheDialgaTeam.Core.Logger\src\TheDialgaTeam.Core.Logger.csproj" />
-    <ProjectReference Include="..\..\TheDialgaTeam.Microsoft.Extensions.DependencyInjection\src\TheDialgaTeam.Microsoft.Extensions.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>

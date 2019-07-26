@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using TheDialgaTeam.Core.Logger.Console;
-using TheDialgaTeam.Microsoft.Extensions.DependencyInjection;
-using Tuckfirtle.Node.Services.Bootstrap;
-using Tuckfirtle.Node.Services.Console;
-using Tuckfirtle.Node.Services.IO;
+using TheDialgaTeam.Core.Logger;
+using TheDialgaTeam.Core.Logger.DependencyInjection;
 
 namespace Tuckfirtle.Node
 {
@@ -33,23 +34,38 @@ namespace Tuckfirtle.Node
         /// </summary>
         public static void Main()
         {
+            // Create necessary folders before initialize.
+            var logDirectory = Path.Combine(Environment.CurrentDirectory, "Logs");
+
+            if (!Directory.Exists(logDirectory))
+                Directory.CreateDirectory(logDirectory);
+
+            // Dependency injection container. 
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddInterfacesAndSelfAsSingleton<FilePathService>();
-            serviceCollection.AddInterfacesAndSelfAsSingleton<LoggerService>();
-            serviceCollection.AddInterfacesAndSelfAsSingleton<BootstrapService>();
+            serviceCollection.AddConsoleStreamWriteToFileQueuedTaskLoggerService(Console.Out, Path.Combine(logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log"), CancellationTokenSource.Token);
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
-            var loggerService = ServiceProvider.GetService<LoggerService>();
+            // Insert task that should be awaited to prevent shutdown.
+            var consoleLogger = ServiceProvider.GetRequiredService<ConsoleStreamWriteToFileQueuedTaskLogger>();
+            TasksToAwait.Add(consoleLogger.ConsoleMessageQueueTask);
 
+            // Main execution code starts below!
             try
             {
-                ServiceProvider.InitializeServices();
-                ServiceProvider.LateInitializeServices();
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                var frameworkVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<TargetFrameworkAttribute>().FrameworkName;
+                Console.Title = $"Tuckfirtle Node v{version} ({frameworkVersion})";
+
+                consoleLogger.LogMessage($"Initializing Tuckfirtle Node v{version}...");
 
                 Task.WaitAll(TasksToAwait.ToArray());
 
-                ServiceProvider.DisposeServices();
+                var disposableServices = ServiceProvider.GetServices<IDisposable>().Reverse();
+
+                foreach (var disposableService in disposableServices)
+                    disposableService.Dispose();
+
                 Dispose();
 
                 Environment.Exit(0);
@@ -70,7 +86,7 @@ namespace Tuckfirtle.Node
 
                 if (message.Length > 1)
                 {
-                    loggerService.LogMessage(message);
+                    consoleLogger.LogMessage(message);
                     Console.ReadLine();
                 }
 
@@ -78,7 +94,7 @@ namespace Tuckfirtle.Node
             }
             catch (Exception ex)
             {
-                loggerService.LogMessage(new ConsoleMessageBuilder()
+                consoleLogger.LogMessage(new ConsoleMessageBuilder()
                     .WriteLine(ex.ToString(), ConsoleColor.Red)
                     .WriteLine("Press Enter/Return to exit...")
                     .Build());
@@ -92,7 +108,12 @@ namespace Tuckfirtle.Node
         private static void ExitWithFault()
         {
             CancellationTokenSource?.Cancel();
-            ServiceProvider?.DisposeServices();
+
+            var disposableServices = ServiceProvider.GetServices<IDisposable>().Reverse();
+
+            foreach (var disposableService in disposableServices)
+                disposableService.Dispose();
+            
             Dispose();
 
             Environment.Exit(1);
