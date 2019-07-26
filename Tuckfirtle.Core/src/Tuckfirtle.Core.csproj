@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Tuckfirtle.Core</AssemblyName>
     <RootNamespace>Tuckfirtle.Core</RootNamespace>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net471;net47;net462;net461;net46;net452;net451;net45</TargetFrameworks>
     <OutputType>Library</OutputType>
     <StartupObject></StartupObject>
     <ApplicationIcon></ApplicationIcon>
@@ -16,18 +16,17 @@
     <PackageProjectUrl>https://github.com/tuckfirtle/Tuckfirtle.Core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tuckfirtle/Tuckfirtle.Core</RepositoryUrl>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <Optimize>false</Optimize>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
   </PropertyGroup>
 
