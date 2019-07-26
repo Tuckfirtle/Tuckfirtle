@@ -1,3 +1,6 @@
 [submodule "TheDialgaTeam.Core.Logger"]
 	path = TheDialgaTeam.Core.Logger
 	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Logger.git
+[submodule "TheDialgaTeam.Core.Logger.DependencyInjection"]
+	path = TheDialgaTeam.Core.Logger.DependencyInjection
+	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Logger.DependencyInjection.git
