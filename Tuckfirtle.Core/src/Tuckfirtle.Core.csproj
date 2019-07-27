@@ -5,8 +5,6 @@
     <RootNamespace>Tuckfirtle.Core</RootNamespace>
     <TargetFrameworks>netstandard2.0;net471;net47;net462;net461;net46;net452;net451;net45</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <StartupObject></StartupObject>
-    <ApplicationIcon></ApplicationIcon>
     <PackageId>Tuckfirtle.Core</PackageId>
     <Version>0.0.1.0</Version>
     <Authors>Yong Jian Ming</Authors>

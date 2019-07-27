@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Core.Logger",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Core.Logger.DependencyInjection", "TheDialgaTeam.Core.Logger.DependencyInjection\src\TheDialgaTeam.Core.Logger.DependencyInjection.csproj", "{1E88E53D-A1E6-4727-A677-B889A4E70821}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.Core.Test", "Tuckfirtle.Core.Test\src\Tuckfirtle.Core.Test.csproj", "{BC05CAAA-8C1A-4F61-927E-131BC20DC020}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{1E88E53D-A1E6-4727-A677-B889A4E70821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E88E53D-A1E6-4727-A677-B889A4E70821}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E88E53D-A1E6-4727-A677-B889A4E70821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC05CAAA-8C1A-4F61-927E-131BC20DC020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC05CAAA-8C1A-4F61-927E-131BC20DC020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC05CAAA-8C1A-4F61-927E-131BC20DC020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC05CAAA-8C1A-4F61-927E-131BC20DC020}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
