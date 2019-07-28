@@ -11,8 +11,6 @@ namespace Tuckfirtle.Core.Pow
          * Note that this is not proven to be relatively safe for production use. Use with caution.
          * There will be SHA3 variants in a different POW fork in the future when C# have better implementation of them.
          *
-         * Disclaimer: This is not finished and may change overtime when I got new ideas.
-         *
          * Input: (Based on the block data with random nonce) These will be in json and converted to UTF-8 bytes.
          * Output: The final POW value in hexadecimal.
          *
@@ -24,6 +22,13 @@ namespace Tuckfirtle.Core.Pow
          * SHA 384 = 384 bits == 48 bytes
          * SHA 512 = 512 bits == 64 bytes
          *
+         * AES Configuration Used:
+         * BlockSize = 128
+         * FeedbackSize = 8
+         * KeySize = 256
+         * Mode = CBC
+         * Padding = None
+         *
          * START OF ALGORITHM:
          * For each of the SHA2 hashing function, the input will be hashed and produce 32, 48 and 64 bytes of data respectively.
          * Then each of the data will be split into groups of 16 bytes as shown below.
@@ -32,7 +37,7 @@ namespace Tuckfirtle.Core.Pow
          * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes | 096..111 bytes | 112..127 bytes | 128..143 bytes |
          * | SHA 256 (1st)  | SHA 256 (2nd)  | SHA 384 (3rd)  | SHA 384 (4th)  | SHA 384 (5th)  | SHA 512 (6th)  | SHA 512 (7th)  | SHA 512 (8th)  | SHA 512 (9th)  |
          *
-         * To get the AES Key, you will need to combine the 1st and 2nd set of data and XOR with the 3rd set of data.
+         * To get the AES key, you will need to combine the 1st and 2nd set of data and XOR with the 3rd set of data.
          *
          * AES Key Result (32 bytes):
          * | 00..15 bytes | 16..31 bytes |
@@ -40,6 +45,11 @@ namespace Tuckfirtle.Core.Pow
          * To get the XOR key, you will need to combine the 4th and 5th set of data and XOR with the 6th set of data.
          *
          * XOR Key Result (32 bytes):
+         * | 00..15 bytes | 16..31 bytes |
+         *
+         * To get the AES data, you will need to combine the 7th and 8th set of data and XOR with the 9th set of data.
+         *
+         * AES Data Result (32 bytes):
          * | 00..15 bytes | 16..31 bytes |
          *
          * How to XOR the data for the steps above:
@@ -58,7 +68,6 @@ namespace Tuckfirtle.Core.Pow
          * ... continue with the rest of the index ...
          * For index 31 and 47, 31 (data) XOR 47 (XOR data)
          *
-         * ====================================================================================================
          * After doing the above, you should have the following data:
          *
          * Pow Data (144 bytes)
@@ -71,11 +80,37 @@ namespace Tuckfirtle.Core.Pow
          * XOR Key Result (32 bytes):
          * | 00..15 bytes | 16..31 bytes |
          *
-         * Unused data (48 bytes):
-         * | 00..15 bytes | 16..31 bytes | 32..47 bytes |
-         * | SHA 512 (7th)| SHA 512 (8th)| SHA 512 (9th)|
+         * AES Data (32 bytes):
+         * | 00..15 bytes | 16..31 bytes |
          *
          * Scratchpad size: 64 kb == 65536‬ bytes
+         *
+         * To initialize the scratchpad, you will need to do an AES of the AES data with the AES key.
+         * This will the first set of encrypted data (32 bytes)
+         *
+         * Scratchpad:
+         * | 0..15 bytes | 16..31 bytes | 32..65535 bytes |
+         * | First Encrypted Data       | Empty           |
+         *
+         * Now, continue to do AES by using the new encrypted data with the AES key until it is fully initialized.
+         *
+         * Scratchpad:
+         * | 0..15 bytes | 16..31 bytes | 32..47 bytes | 48..63 bytes | 64..65535 bytes |
+         * | First Encrypted Data       | Second Encrypted Data       | ...             |
+         *
+         * Scratchpad loop:
+         * For each 32 bytes in the scratchpad, they will contain a 32 byte sign number.
+         * Set the most significant bit (MSB) to 0 before modulo with the scratchpad size to get the location.
+         * The number that you get from each 32 bytes will be the location where you want to XOR with XOR Key.
+         *
+         * Quick Math logic to set MSB to zero:
+         * Take the last byte which contains the sign bit and do an AND 127 to get a value that is always positive.
+         *
+         * How to XOR a single byte value from the XOR Key:
+         * You will need to first get the location of the data from the above step. That will be the data we want to XOR.
+         * For each XOR Key byte, XOR with the data found above.
+         *
+         * Do this loop at least 256 times to ensure it is random.
          */
 
         private SHA256 Sha256 { get; }
@@ -157,11 +192,27 @@ namespace Tuckfirtle.Core.Pow
             return result;
         }
 
-        public byte[] GetUnusedData(byte[] powData)
+        public byte[] GetAesData(byte[] powData)
         {
-            var result = new byte[48];
+            var result = new byte[32];
+            var dataBytes = new byte[32];
+            var xorBytes = new byte[16];
 
-            Array.Copy(powData, 96, result, 0, 48);
+            Array.Copy(powData, 96, dataBytes, 0, 32);
+            Array.Copy(powData, 128, xorBytes, 0, 16);
+
+            var dataBytesLength = dataBytes.Length;
+            var xorBytesLength = xorBytes.Length;
+            var xorIndex = 0;
+
+            for (var i = 0; i < dataBytesLength; i++)
+            {
+                result[i] = (byte) (dataBytes[i] ^ xorBytes[xorIndex]);
+                xorIndex++;
+
+                if (xorIndex == xorBytesLength)
+                    xorIndex = 0;
+            }
 
             return result;
         }
