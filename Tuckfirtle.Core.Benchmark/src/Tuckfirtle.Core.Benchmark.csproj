@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Tuckfirtle.Core.Benchmark</AssemblyName>
+    <RootNamespace>Tuckfirtle.Core.Benchmark</RootNamespace>
+    <TargetFrameworks>netcoreapp2.2;netcoreapp2.1;netcoreapp2.0;net472;net471;net47;net462;net461</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Tuckfirtle.Core.Benchmark.Program</StartupObject>
+    <ApplicationIcon></ApplicationIcon>
+    <PackageId>Tuckfirtle.Core.Benchmark</PackageId>
+    <Version>0.0.1.0</Version>
+    <Authors>Yong Jian Ming</Authors>
+    <Company>Tuckfirtle</Company>
+    <Product>Tuckfirtle.Core.Benchmark</Product>
+    <Description>Tuckfirtle core benchmark.</Description>
+    <PackageProjectUrl>https://github.com/tuckfirtle/Tuckfirtle.Core.Benchmark</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tuckfirtle/Tuckfirtle.Core.Benchmark</RepositoryUrl>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Tuckfirtle.Core\src\Tuckfirtle.Core.csproj" />
+  </ItemGroup>
+
+</Project>
