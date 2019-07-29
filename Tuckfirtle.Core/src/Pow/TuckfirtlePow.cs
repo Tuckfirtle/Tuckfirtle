@@ -105,7 +105,6 @@ namespace Tuckfirtle.Core.Pow
          * Final State: (96 bytes)
          * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes |
          *
-         * The POW value will be 96 bytes long.
          * This is a huge unsigned integer number in which the blockchain will use to verify your work.
          */
 
@@ -194,7 +193,7 @@ namespace Tuckfirtle.Core.Pow
                 Array.Copy(scratchPad, j, addressLocationBytes, 0, 32);
 
                 var addressLocation = new BigInteger(addressLocationBytes) % scratchPadLength;
-                var addressLocationValue = (long) addressLocation;
+                var addressLocationValue = (int) addressLocation;
 
                 for (var k = 0; k < xorKeyLength; k++)
                 {
@@ -216,7 +215,7 @@ namespace Tuckfirtle.Core.Pow
                 Array.Copy(powData, i, addressLocationBytes, 0, 16);
 
                 var addressLocation = new BigInteger(addressLocationBytes) % scratchPadLength;
-                var addressLocationValue = (long) addressLocation;
+                var addressLocationValue = (int) addressLocation;
 
                 for (var j = 0; j < 16; j++)
                     powData[j + i] = (byte) (powData[j + i] ^ scratchPad[addressLocationValue]);
@@ -228,7 +227,7 @@ namespace Tuckfirtle.Core.Pow
             GetXorKey(powData).CopyTo(compressedBytes, 32);
             GetAesData(powData).CopyTo(compressedBytes, 64);
 
-            return powData;
+            return compressedBytes;
         }
 
         public byte[] GetPowData(string jsonData)

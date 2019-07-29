@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +43,7 @@ namespace Tuckfirtle.Node
             // Dependency injection container. 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddConsoleStreamWriteToFileQueuedTaskLoggerService(Console.Out, Path.Combine(logDirectory, $"{DateTime.Now:yyyy-MM-dd}.log"), CancellationTokenSource.Token);
+            serviceCollection.AddSingleton<Test>();
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
@@ -59,6 +59,7 @@ namespace Tuckfirtle.Node
                 Console.Title = $"Tuckfirtle Node v{version} ({frameworkVersion})";
 
                 consoleLogger.LogMessage($"Initializing Tuckfirtle Node v{version}...");
+                ServiceProvider.GetService<Test>().Start();
 
                 Task.WaitAll(TasksToAwait.ToArray());
 

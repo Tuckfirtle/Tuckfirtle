@@ -7,7 +7,7 @@ namespace Tuckfirtle.Core.Benchmark
     {
         public static void Main(string[] args)
         {
-            BenchmarkRunner.Run<GetAesKeyBenchmark>();
+            BenchmarkRunner.Run<GetPowValueBenchmark>();
         }
     }
 }
