@@ -20,7 +20,7 @@ namespace Tuckfirtle.Core.Benchmark.Pow.TuckfirtlePow
         [Benchmark]
         public byte[] GetXorKeyTest()
         {
-            return TuckfirtlePow.GetXorKey(PowData);
+            return Core.Pow.TuckfirtlePow.GetXorKey(PowData);
         }
 
         [GlobalCleanup]

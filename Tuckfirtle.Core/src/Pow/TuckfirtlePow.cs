@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Tuckfirtle.Core.Pow
          * There will be SHA3 variants in a different POW fork in the future when C# have better implementation of them.
          *
          * Input: (Based on the block data with random nonce) These will be in json and converted to UTF-8 bytes.
-         * Output: The final POW value in hexadecimal.
+         * Output: The final POW value.
          *
          * SOME USEFUL INFORMATION:
          * This algorithm use SHA2 variants to generate enough bytes to avoid possible collusion.
@@ -37,10 +38,13 @@ namespace Tuckfirtle.Core.Pow
          * Pow Data Result (144 bytes):
          * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes | 096..111 bytes | 112..127 bytes | 128..143 bytes |
          * | SHA 256 (1st)  | SHA 256 (2nd)  | SHA 384 (3rd)  | SHA 384 (4th)  | SHA 384 (5th)  | SHA 512 (6th)  | SHA 512 (7th)  | SHA 512 (8th)  | SHA 512 (9th)  |
+         * | AES key                         | XOR data       | XOR key                         | XOR data       | AES data                        | XOR data       |
+         * | AES iv         | XOR Data       |
          *
-         * To get the AES key, you will need to combine the 1st and 2nd set of pow data and XOR with the 3rd set of pow data.
-         * To get the XOR key, you will need to combine the 4th and 5th set of pow data and XOR with the 6th set of pow data.
-         * To get the AES data, you will need to combine the 7th and 8th set of pow data and XOR with the 9th set of pow data.
+         * To get the AES key, combine the 1st and 2nd set of pow data and XOR with the 3rd set of pow data.
+         * To get the AES iv, take the AES key and split into 2 groups of 16 bytes. Apply XOR with the given 2 groups of 16 bytes.
+         * To get the XOR key, combine the 4th and 5th set of pow data and XOR with the 6th set of pow data.
+         * To get the AES data, combine the 7th and 8th set of pow data and XOR with the 9th set of pow data.
          *
          * How to XOR the data for the steps above:
          * | 00..15 bytes | 16..31 bytes | 32..47 bytes |
@@ -62,8 +66,11 @@ namespace Tuckfirtle.Core.Pow
          * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes | 096..111 bytes | 112..127 bytes | 128..143 bytes |
          * | SHA 256 (1st)  | SHA 256 (2nd)  | SHA 384 (3rd)  | SHA 384 (4th)  | SHA 384 (5th)  | SHA 512 (6th)  | SHA 512 (7th)  | SHA 512 (8th)  | SHA 512 (9th)  |
          *
-         * AES Key Result (32 bytes):
+         * AES key Result (32 bytes):
          * | 00..15 bytes | 16..31 bytes |
+         *
+         * AES iv Result (16 bytes):
+         * | 00..15 bytes |
          *
          * XOR Key Result (32 bytes):
          * | 00..15 bytes | 16..31 bytes |
@@ -73,24 +80,20 @@ namespace Tuckfirtle.Core.Pow
          *
          * Scratchpad size: 64 kb == 65536‬ bytes
          *
-         * To initialize the scratchpad, you will need to do an AES of the AES data with the AES key.
-         * This will the first set of encrypted data (32 bytes)
-         *
-         * Scratchpad:
-         * | 0..15 bytes | 16..31 bytes | 32..65535 bytes |
-         * | First Encrypted Data       | Empty           |
-         *
-         * Now, continue to do AES by using the new encrypted data with the AES key until it is fully initialized.
+         * To initialize the scratchpad, you will need to encrypt the AES data with the AES key.
+         * Continue to use the previous AES result with the AES key until the scratchpad is filled.
          *
          * Scratchpad:
          * | 0..15 bytes | 16..31 bytes | 32..47 bytes | 48..63 bytes | 64..65535 bytes |
          * | First Encrypted Data       | Second Encrypted Data       | ...             |
          *
-         * For each 32 bytes in the scratchpad, they will contain a 32 bytes unsigned number.
-         * Modulo that number with the scratchpad size to get the scratchpad location of the data to XOR with XOR key.
-         *
+         * For each 32 bytes in the scratchpad, convert the number into 32 bytes unsigned big integer.
+         * Modulo that number with the scratchpad size to get the starting scratchpad location to XOR with XOR key.
+         * From the starting location to the next 31 bytes, XOR with the XOR key.
+         * If the offset goes out of bound, rollover to index 0 and continue from there.
+         * 
          * Finally, to get the new 144 bytes of Pow Data:
-         * For each 16 bytes of old pow data, they will contain a 16 bytes unsigned number.
+         * For each 16 bytes of old pow data, convert the number into 16 bytes unsigned big integer.
          * Modulo that number with the scratchpad size to get the scratchpad location which contain a single byte number.
          * For each byte in the 16 bytes of old pow data, XOR with the single byte number you found above.
          *
@@ -102,8 +105,8 @@ namespace Tuckfirtle.Core.Pow
          * Final State: (96 bytes)
          * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes |
          *
-         * This will be a huge integer number (unsigned) of 96 bytes long.
-         * This number will be the POW value which the blockchain will used to verify your work.
+         * The POW value will be 96 bytes long.
+         * This is a huge unsigned integer number in which the blockchain will use to verify your work.
          */
 
         private SHA256 Sha256 { get; }
@@ -119,12 +122,47 @@ namespace Tuckfirtle.Core.Pow
             Sha512 = SHA512.Create();
         }
 
+        public static byte[] GetAesKey(byte[] powData)
+        {
+            return CompressAndXorBytes(powData, 0, 32, 32, 16);
+        }
+
+        public static byte[] GetXorKey(byte[] powData)
+        {
+            return CompressAndXorBytes(powData, 48, 32, 80, 16);
+        }
+
+        public static byte[] GetAesData(byte[] powData)
+        {
+            return CompressAndXorBytes(powData, 96, 32, 128, 16);
+        }
+
+        private static byte[] CompressAndXorBytes(IReadOnlyList<byte> powData, int dataOffset, int dataLength, int xorKeyOffset, int xorKeyLength)
+        {
+            var result = new byte[dataLength];
+            var xorIndex = 0;
+
+            for (var i = 0; i < dataLength; i++)
+            {
+                result[i] = (byte) (powData[dataOffset + i] ^ powData[xorKeyOffset + xorIndex++]);
+
+                if (xorIndex >= xorKeyLength)
+                    xorIndex = 0;
+            }
+
+            return result;
+        }
+
         public byte[] GetPowValue(string jsonData)
         {
             var powData = GetPowData(jsonData);
             var aesKey = GetAesKey(powData);
+            var aesIv = CompressAndXorBytes(aesKey, 0, 16, 16, 16);
             var aesData = GetAesData(powData);
             var xorKey = GetXorKey(powData);
+
+            var powDataLength = powData.Length;
+            var aesDataLength = aesData.Length;
             var xorKeyLength = xorKey.Length;
 
             var scratchPad = new byte[65536];
@@ -132,18 +170,19 @@ namespace Tuckfirtle.Core.Pow
 
             using (var aes = new AesManaged())
             {
+                aes.IV = aesIv;
                 aes.Key = aesKey;
                 aes.Padding = PaddingMode.None;
 
-                var aesEncryptor = aes.CreateEncryptor();
+                var aesEncryption = aes.CreateEncryptor();
                 var currentAesData = aesData;
                 var lengthAdded = 0;
 
-                while (lengthAdded < scratchPad.Length)
+                while (lengthAdded < scratchPadLength)
                 {
-                    currentAesData = aesEncryptor.TransformFinalBlock(currentAesData, 0, currentAesData.Length);
-                    Array.Copy(currentAesData, 0, scratchPad, lengthAdded, currentAesData.Length);
-                    lengthAdded += currentAesData.Length;
+                    currentAesData = aesEncryption.TransformFinalBlock(currentAesData, 0, aesDataLength);
+                    Array.Copy(currentAesData, 0, scratchPad, lengthAdded, aesDataLength);
+                    lengthAdded += aesDataLength;
                 }
             }
 
@@ -155,13 +194,19 @@ namespace Tuckfirtle.Core.Pow
                 Array.Copy(scratchPad, j, addressLocationBytes, 0, 32);
 
                 var addressLocation = new BigInteger(addressLocationBytes) % scratchPadLength;
-                var addressLocationValue = Convert.ToInt32(addressLocation.ToString());
+                var addressLocationValue = (long) addressLocation;
 
                 for (var k = 0; k < xorKeyLength; k++)
-                    scratchPad[(addressLocationValue + k) % scratchPadLength] = (byte) (scratchPad[(addressLocationValue + k) % scratchPadLength] ^ xorKey[k]);
+                {
+                    if (addressLocationValue + k >= scratchPadLength)
+                    {
+                        var newLocation = (addressLocationValue + k) % scratchPadLength;
+                        scratchPad[newLocation] = (byte) (scratchPad[newLocation] ^ xorKey[k]);
+                    }
+                    else
+                        scratchPad[addressLocationValue + k] = (byte) (scratchPad[addressLocationValue + k] ^ xorKey[k]);
+                }
             }
-
-            var powDataLength = powData.Length;
 
             for (var i = 0; i < powDataLength; i += 16)
             {
@@ -171,7 +216,7 @@ namespace Tuckfirtle.Core.Pow
                 Array.Copy(powData, i, addressLocationBytes, 0, 16);
 
                 var addressLocation = new BigInteger(addressLocationBytes) % scratchPadLength;
-                var addressLocationValue = Convert.ToInt32(addressLocation.ToString());
+                var addressLocationValue = (long) addressLocation;
 
                 for (var j = 0; j < 16; j++)
                     powData[j + i] = (byte) (powData[j + i] ^ scratchPad[addressLocationValue]);
@@ -198,54 +243,6 @@ namespace Tuckfirtle.Core.Pow
             sha256Result.CopyTo(result, 0);
             sha384Result.CopyTo(result, 32);
             sha512Result.CopyTo(result, 80);
-
-            return result;
-        }
-
-        public byte[] GetAesKey(byte[] powData)
-        {
-            var result = new byte[32];
-            var xorIndex = 0;
-
-            for (var i = 0; i < 32; i++)
-            {
-                result[i] = (byte) (powData[i] ^ powData[32 + xorIndex++]);
-
-                if (xorIndex == 16)
-                    xorIndex = 0;
-            }
-
-            return result;
-        }
-
-        public byte[] GetXorKey(byte[] powData)
-        {
-            var result = new byte[32];
-            var xorIndex = 0;
-
-            for (var i = 0; i < 32; i++)
-            {
-                result[i] = (byte) (powData[48 + i] ^ powData[80 + xorIndex++]);
-
-                if (xorIndex == 16)
-                    xorIndex = 0;
-            }
-
-            return result;
-        }
-
-        public byte[] GetAesData(byte[] powData)
-        {
-            var result = new byte[32];
-            var xorIndex = 0;
-
-            for (var i = 0; i < 32; i++)
-            {
-                result[i] = (byte) (powData[96 + i] ^ powData[128 + xorIndex++]);
-
-                if (xorIndex == 16)
-                    xorIndex = 0;
-            }
 
             return result;
         }

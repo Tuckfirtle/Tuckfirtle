@@ -20,7 +20,7 @@ namespace Tuckfirtle.Core.Benchmark.Pow.TuckfirtlePow
         [Benchmark]
         public byte[] GetAesKeyTest()
         {
-            return TuckfirtlePow.GetAesKey(PowData);
+            return Core.Pow.TuckfirtlePow.GetAesKey(PowData);
         }
 
         [GlobalCleanup]
