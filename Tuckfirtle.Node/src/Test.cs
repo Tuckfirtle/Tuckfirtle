@@ -17,10 +17,8 @@ namespace Tuckfirtle.Node
 
         public void Start()
         {
-            var pow = new TuckfirtlePow();
-
             var biggestNumber = new byte[33];
-            
+
             for (var i = 0; i < biggestNumber.Length; i++)
             {
                 if (i != 32)
@@ -34,9 +32,9 @@ namespace Tuckfirtle.Node
 
             ConsoleLogger.LogMessage($"Biggest Number: {bigNumber.ToString().PadLeft(bigNumber.ToString().Length, '0')}");
 
-            for (var i = 0; i < 10000000; i++)
+            Parallel.For(0, 10000000, i =>
             {
-                var powValue = pow.GetPowValue(i.ToString());
+                var powValue = TuckfirtlePow.GetPowValue(i.ToString());
                 var powValueLength = powValue.Length;
 
                 var powNumber = new byte[powValueLength + 1];
@@ -47,11 +45,11 @@ namespace Tuckfirtle.Node
                 var bigInteger = new BigInteger(powNumber);
 
                 if (bigInteger >= smallestNumber)
-                    continue;
+                    return;
 
                 smallestNumber = bigInteger;
                 ConsoleLogger.LogMessage($"NOnce {i}: {bigInteger.ToString().PadLeft(bigNumber.ToString().Length, '0')}");
-            }
+            });
         }
     }
 }
