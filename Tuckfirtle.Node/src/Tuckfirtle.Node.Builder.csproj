@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Tuckfirtle.Node</AssemblyName>
     <RootNamespace>Tuckfirtle.Node</RootNamespace>
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <StartupObject>Tuckfirtle.Node.Program</StartupObject>
     <ApplicationIcon></ApplicationIcon>
@@ -23,11 +23,11 @@
     <DefineConstants>DEBUG</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

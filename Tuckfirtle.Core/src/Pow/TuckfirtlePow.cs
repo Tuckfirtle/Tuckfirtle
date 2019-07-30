@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,99 +12,121 @@ namespace Tuckfirtle.Core.Pow
          * Note that this is not proven to be relatively safe for production use. Use with caution.
          * There will be SHA3 variants in a different POW fork in the future when C# have better implementation of them.
          *
-         * Input: (Based on the block data with random nonce) These will be in json and converted to UTF-8 bytes.
-         * Output: The final POW value.
+         * ====================================================================================================
+         * 1. DEFINITION / INFORMATION
+         * ====================================================================================================
+         * Input: Block data appended with random nonce in json and converted to UTF-8 byte array.
+         * Output: Final POW value of a big unsigned number.
+         * Scratchpad: A huge byte array that is allocated in memory to do POW work.
          *
-         * SOME USEFUL INFORMATION:
-         * This algorithm use SHA2 variants to generate enough bytes to avoid possible collusion.
-         *
-         * SHA2 hashing function that will be used in this algorithm: 
+         * SHA 2 hashing function:
          * SHA 256 = 256 bits == 32 bytes
          * SHA 384 = 384 bits == 48 bytes
          * SHA 512 = 512 bits == 64 bytes
          *
-         * AES Configuration Used:
-         * BlockSize = 128
+         * AES encryption function:
+         * BlockSize = 128 bits
          * FeedbackSize = 8
-         * KeySize = 256
+         * KeySize = 256 bits
          * Mode = CBC
          * Padding = None
          *
-         * START OF ALGORITHM:
-         * For each of the SHA2 hashing function, the input will be hashed and produce 32, 48 and 64 bytes of data respectively.
-         * Then each of the data will be split into groups of 16 bytes as shown below.
+         * ====================================================================================================
+         * 2. START OF ALGORITHM
+         * ====================================================================================================
+         * Using the input, perform SHA 256, SHA 384 and SHA 512 and combine the results together into 144 byte array as shown below.
          *
-         * Pow Data Result (144 bytes):
+         * Pow data (144 bytes):
          * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes | 096..111 bytes | 112..127 bytes | 128..143 bytes |
          * | SHA 256 (1st)  | SHA 256 (2nd)  | SHA 384 (3rd)  | SHA 384 (4th)  | SHA 384 (5th)  | SHA 512 (6th)  | SHA 512 (7th)  | SHA 512 (8th)  | SHA 512 (9th)  |
-         * | AES key                         | XOR data       | XOR key                         | XOR data       | AES data                        | XOR data       |
-         * | AES iv         | XOR Data       |
+         * | XOR key                         | XOR data       | AES key                         | XOR data       | AES data                        | XOR data       |
+         *                                                    | AES iv         | XOR data       |
          *
-         * To get the AES key, combine the 1st and 2nd set of pow data and XOR with the 3rd set of pow data.
-         * To get the AES iv, take the AES key and split into 2 groups of 16 bytes. Apply XOR with the given 2 groups of 16 bytes.
-         * To get the XOR key, combine the 4th and 5th set of pow data and XOR with the 6th set of pow data.
-         * To get the AES data, combine the 7th and 8th set of pow data and XOR with the 9th set of pow data.
+         * XOR key:  Combine the 1st and 2nd set of pow data and perform XOR using the 3rd set of pow data.
+         * AES key:  Combine the 4th and 5th set of pow data and perform XOR using the 6th set of pow data.
+         * AES iv:   Use the first 16 bytes of AES key and perform XOR using the second 16 bytes of AES key.
+         * AES data: Combine the 7th and 8th set of pow data and perform XOR using the 9th set of pow data.
          *
-         * How to XOR the data for the steps above:
+         * How to combine and perform XOR of pow data:
          * | 00..15 bytes | 16..31 bytes | 32..47 bytes |
-         * | Data         | Data         | XOR Data     |
+         * | Data                        | XOR data     |
          *
-         * For index 0 and 32, 0 (data) XOR 32 (XOR data)
-         * For index 1 and 33, 1 (data) XOR 33 (XOR data)
+         * Perform XOR using the byte value in index 0 and 32.
+         * Perform XOR using the byte value in index 1 and 33.
          * ... continue with the rest of the index ...
-         * For index 15 and 47, 15 (data) XOR 47 (XOR data)
+         * Perform XOR using the byte value in index 15 and 47.
+         * Perform XOR using the byte value in index 16 and 32.
+         * Perform XOR using the byte value in index 17 and 33.
+         * ... continue with the rest of the index ...
+         * Perform XOR using the byte value in index 31 and 47.
          *
-         * For index 16 and 32, 16 (data) XOR 32 (XOR data)
-         * For index 17 and 33, 17 (data) XOR 33 (XOR data)
-         * ... continue with the rest of the index ...
-         * For index 31 and 47, 31 (data) XOR 47 (XOR data)
+         * XOR data index rollover to index 0 when it goes out of range.
          *
          * After doing the above, you should have the following data:
          *
-         * Pow Data (144 bytes)
+         * Pow data (144 bytes)
          * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes | 096..111 bytes | 112..127 bytes | 128..143 bytes |
          * | SHA 256 (1st)  | SHA 256 (2nd)  | SHA 384 (3rd)  | SHA 384 (4th)  | SHA 384 (5th)  | SHA 512 (6th)  | SHA 512 (7th)  | SHA 512 (8th)  | SHA 512 (9th)  |
          *
-         * AES key Result (32 bytes):
+         * XOR key (32 bytes):
          * | 00..15 bytes | 16..31 bytes |
          *
-         * AES iv Result (16 bytes):
+         * AES key (32 bytes):
+         * | 00..15 bytes | 16..31 bytes |
+         *
+         * AES iv (16 bytes):
          * | 00..15 bytes |
          *
-         * XOR Key Result (32 bytes):
+         * AES data (32 bytes):
          * | 00..15 bytes | 16..31 bytes |
          *
-         * AES Data (32 bytes):
-         * | 00..15 bytes | 16..31 bytes |
-         *
+         * ====================================================================================================
+         * 2.1. MEMORY INITIALIZATION
+         * ====================================================================================================
          * Scratchpad size: 64 kb == 65536‬ bytes
          *
-         * To initialize the scratchpad, you will need to encrypt the AES data with the AES key.
-         * Continue to use the previous AES result with the AES key until the scratchpad is filled.
+         * Allocate a fixed 65536 byte array for the scratchpad.
+         * Encrypt the AES data using the AES key and AES iv and insert into the first 32 bytes of scratchpad.
+         * Encrypt the encrypted data you get from previous step using the AES key and AES iv and into the next 32 bytes of scratchpad.
+         * Repeat the previous step until it is fully initialized.
          *
-         * Scratchpad:
+         * Scratchpad (65536 bytes):
          * | 0..15 bytes | 16..31 bytes | 32..47 bytes | 48..63 bytes | 64..65535 bytes |
          * | First Encrypted Data       | Second Encrypted Data       | ...             |
          *
-         * For each 32 bytes in the scratchpad, convert the number into 32 bytes unsigned big integer.
-         * Modulo that number with the scratchpad size to get the starting scratchpad location to XOR with XOR key.
-         * From the starting location to the next 31 bytes, XOR with the XOR key.
-         * If the offset goes out of bound, rollover to index 0 and continue from there.
-         * 
-         * Finally, to get the new 144 bytes of Pow Data:
-         * For each 16 bytes of old pow data, convert the number into 16 bytes unsigned big integer.
-         * Modulo that number with the scratchpad size to get the scratchpad location which contain a single byte number.
-         * For each byte in the 16 bytes of old pow data, XOR with the single byte number you found above.
+         * ====================================================================================================
+         * 2.2. MEMORY HARD LOOP (1 round)
+         * ====================================================================================================
+         * Every 16 bytes in the scratchpad correspond to a memory location.
          *
-         * Finally, compress the final result into groups of 3.
-         * You will need to combine the 1st and 2nd set of data and XOR with the 3rd set of data.
-         * You will need to combine the 4th and 5th set of data and XOR with the 6th set of data.
-         * You will need to combine the 7th and 8th set of data and XOR with the 9th set of data.
+         * Take the first 16 bytes in the scratchpad and convert into a 16 bytes unsigned number.
+         * Modulo that number with the scratchpad size to get the starting scratchpad location.
+         * From the starting location to the next 31 bytes, perform XOR with the XOR key.
+         * If the location goes out of bound, rollover the index to 0 and continue from there.
          *
-         * Final State: (96 bytes)
-         * | 000..015 bytes | 016..031 bytes | 032..047 bytes | 048..063 bytes | 064..079 bytes | 080..095 bytes |
+         * Repeat the steps above by taking the next 16 bytes until the end of the scratchpad.
          *
-         * This is a huge unsigned integer number in which the blockchain will use to verify your work.
+         * How to perform XOR of scratchpad data:
+         * From the starting location, perform XOR with the first index of XOR key.
+         * Repeat using the next location and perform XOR with the next index of XOR key until all XOR key index is utilized.
+         *
+         * ====================================================================================================
+         * 2.2. FINALIZATION
+         * ====================================================================================================
+         * Every 16 bytes in the pow data correspond to a memory location.
+         *
+         * Take the first 16 in the pow data and convert into a 16 bytes unsigned number.
+         * Modulo that number with the scratchpad size to get the starting scratchpad location.
+         * From the starting location to the next 16 bytes, perform XOR with the 16 bytes of pow data used on the previous step.
+         * If the location goes out of bound, rollover the index to 0 and continue from there.
+         *
+         * Repeat the steps above by taking the next 16 bytes until the end of the pow data.
+         *
+         * How to perform XOR of each 16 bytes of pow data:
+         * From the starting location, perform XOR with the first index of the starting scratchpad location found above.
+         * Repeat using the next location and perform XOR with the next index of scratchpad location until the end of the 16 bytes of pow data.
+         *
+         * Finally, take the new pow data found and perform a SHA 256 to get the final POW value.
          */
 
         private SHA256 Sha256 { get; }
@@ -121,127 +142,146 @@ namespace Tuckfirtle.Core.Pow
             Sha512 = SHA512.Create();
         }
 
-        public static byte[] GetAesKey(byte[] powData)
-        {
-            return CompressAndXorBytes(powData, 0, 32, 32, 16);
-        }
-
-        public static byte[] GetXorKey(byte[] powData)
-        {
-            return CompressAndXorBytes(powData, 48, 32, 80, 16);
-        }
-
-        public static byte[] GetAesData(byte[] powData)
-        {
-            return CompressAndXorBytes(powData, 96, 32, 128, 16);
-        }
-
-        private static byte[] CompressAndXorBytes(IReadOnlyList<byte> powData, int dataOffset, int dataLength, int xorKeyOffset, int xorKeyLength)
+        private static unsafe byte[] XorBytes(byte[] srcArray, int dataOffset, int dataLength, int xorKeyOffset, int xorKeyLength)
         {
             var result = new byte[dataLength];
-            var xorIndex = 0;
 
-            for (var i = 0; i < dataLength; i++)
+            fixed (byte* srcArrayPtr = srcArray, destArrayPtr = result)
             {
-                result[i] = (byte) (powData[dataOffset + i] ^ powData[xorKeyOffset + xorIndex++]);
+                var dataByteArrayPtr = srcArrayPtr + dataOffset;
+                var xorKeyByteArrayPtr = srcArrayPtr + xorKeyOffset;
+                var destByteArrayPtr = destArrayPtr;
 
-                if (xorIndex >= xorKeyLength)
-                    xorIndex = 0;
+                if (dataLength == xorKeyLength)
+                {
+                    for (var i = 0; i < dataLength; i++)
+                        *destByteArrayPtr++ = (byte) (*dataByteArrayPtr++ ^ *xorKeyByteArrayPtr++);
+                }
+                else
+                {
+                    var xorIndex = 0;
+
+                    for (var i = 0; i < dataLength; i++)
+                    {
+                        *destByteArrayPtr++ = (byte) (*dataByteArrayPtr++ ^ *(xorKeyByteArrayPtr + xorIndex++));
+
+                        if (xorIndex == xorKeyLength)
+                            xorIndex = 0;
+                    }
+                }
             }
 
             return result;
         }
 
-        public byte[] GetPowValue(string jsonData)
+        public unsafe byte[] GetPowValue(string jsonData)
         {
             var powData = GetPowData(jsonData);
-            var aesKey = GetAesKey(powData);
-            var aesIv = CompressAndXorBytes(aesKey, 0, 16, 16, 16);
-            var aesData = GetAesData(powData);
-            var xorKey = GetXorKey(powData);
-
             var powDataLength = powData.Length;
-            var aesDataLength = aesData.Length;
-            var xorKeyLength = xorKey.Length;
 
             var scratchPad = new byte[65536];
             var scratchPadLength = scratchPad.Length;
 
-            using (var aes = new AesManaged())
+            fixed (byte* powDataPtr = powData, scratchPadPtr = scratchPad)
             {
-                aes.IV = aesIv;
-                aes.Key = aesKey;
-                aes.Padding = PaddingMode.None;
-
-                var aesEncryption = aes.CreateEncryptor();
-                var currentAesData = aesData;
-                var lengthAdded = 0;
-
-                while (lengthAdded < scratchPadLength)
+                using (var aes = new AesManaged())
                 {
-                    currentAesData = aesEncryption.TransformFinalBlock(currentAesData, 0, aesDataLength);
-                    Array.Copy(currentAesData, 0, scratchPad, lengthAdded, aesDataLength);
-                    lengthAdded += aesDataLength;
-                }
-            }
+                    var aesKey = XorBytes(powData, 48, 32, 80, 16);
+                    var aesIv = XorBytes(aesKey, 0, 16, 16, 16);
 
-            for (var j = 0; j < scratchPadLength; j += 32)
-            {
-                var addressLocationBytes = new byte[33];
-                addressLocationBytes[32] = 0;
+                    aes.Key = aesKey;
+                    aes.IV = aesIv;
+                    aes.Padding = PaddingMode.None;
 
-                Array.Copy(scratchPad, j, addressLocationBytes, 0, 32);
+                    var aesEncryption = aes.CreateEncryptor();
+                    var currentAesData = XorBytes(powData, 96, 32, 128, 16);
 
-                var addressLocation = new BigInteger(addressLocationBytes) % scratchPadLength;
-                var addressLocationValue = (int) addressLocation;
-
-                for (var k = 0; k < xorKeyLength; k++)
-                {
-                    if (addressLocationValue + k >= scratchPadLength)
+                    for (var i = 0; i < scratchPadLength; i += 32)
                     {
-                        var newLocation = (addressLocationValue + k) % scratchPadLength;
-                        scratchPad[newLocation] = (byte) (scratchPad[newLocation] ^ xorKey[k]);
+                        currentAesData = aesEncryption.TransformFinalBlock(currentAesData, 0, 32);
+
+                        fixed (byte* currentAesDataPtr = currentAesData)
+                            Buffer.MemoryCopy(currentAesDataPtr, scratchPadPtr + i, 32, 32);
                     }
-                    else
-                        scratchPad[addressLocationValue + k] = (byte) (scratchPad[addressLocationValue + k] ^ xorKey[k]);
+                }
+
+                var xorKey = XorBytes(powData, 0, 32, 32, 16);
+
+                fixed (byte* xorKeyPtr = xorKey)
+                {
+                    for (var i = 0; i < scratchPadLength; i += 16)
+                    {
+                        var addressLocation = new byte[17];
+
+                        fixed (byte* addressLocationPtr = addressLocation)
+                        {
+                            *(addressLocationPtr + 16) = 0;
+                            Buffer.MemoryCopy(scratchPadPtr + i, addressLocationPtr, 16, 16);
+                        }
+
+                        var xorKeyBytePtr = xorKeyPtr;
+                        var scratchPadOffset = (int) (new BigInteger(addressLocation) % scratchPadLength);
+
+                        for (var j = 0; j < 32; j++)
+                        {
+                            var scratchPadBytePtr = scratchPadPtr + scratchPadOffset;
+
+                            *scratchPadBytePtr = (byte) (*scratchPadBytePtr ^ *xorKeyBytePtr++);
+                            scratchPadOffset++;
+
+                            if (scratchPadOffset == scratchPadLength)
+                                scratchPadOffset = 0;
+                        }
+                    }
+                }
+
+                var powDataBytePtr = powDataPtr;
+
+                for (var i = 0; i < powDataLength; i += 16)
+                {
+                    var addressLocation = new byte[17];
+
+                    fixed (byte* addressLocationPtr = addressLocation)
+                    {
+                        *(addressLocationPtr + 16) = 0;
+                        Buffer.MemoryCopy(powDataBytePtr, addressLocationPtr, 16, 16);
+                    }
+
+                    var scratchPadOffset = (int) (new BigInteger(addressLocation) % scratchPadLength);
+
+                    for (var j = 0; j < 16; j++)
+                    {
+                        var scratchPadBytePtr = scratchPadPtr + scratchPadOffset;
+
+                        *powDataBytePtr = (byte) (*scratchPadBytePtr ^ *powDataBytePtr);
+                        powDataBytePtr++;
+                        scratchPadOffset++;
+
+                        if (scratchPadOffset == scratchPadLength)
+                            scratchPadOffset = 0;
+                    }
                 }
             }
 
-            for (var i = 0; i < powDataLength; i += 16)
-            {
-                var addressLocationBytes = new byte[17];
-                addressLocationBytes[16] = 0;
-
-                Array.Copy(powData, i, addressLocationBytes, 0, 16);
-
-                var addressLocation = new BigInteger(addressLocationBytes) % scratchPadLength;
-                var addressLocationValue = (int) addressLocation;
-
-                for (var j = 0; j < 16; j++)
-                    powData[j + i] = (byte) (powData[j + i] ^ scratchPad[addressLocationValue]);
-            }
-
-            var compressedBytes = new byte[96];
-
-            GetAesKey(powData).CopyTo(compressedBytes, 0);
-            GetXorKey(powData).CopyTo(compressedBytes, 32);
-            GetAesData(powData).CopyTo(compressedBytes, 64);
-
-            return compressedBytes;
+            return Sha256.ComputeHash(powData);
         }
 
-        public byte[] GetPowData(string jsonData)
+        public unsafe byte[] GetPowData(string jsonData)
         {
             var result = new byte[144];
+
             var dataBytes = Encoding.UTF8.GetBytes(jsonData);
 
             var sha256Result = Sha256.ComputeHash(dataBytes);
             var sha384Result = Sha384.ComputeHash(dataBytes);
             var sha512Result = Sha512.ComputeHash(dataBytes);
 
-            sha256Result.CopyTo(result, 0);
-            sha384Result.CopyTo(result, 32);
-            sha512Result.CopyTo(result, 80);
+            fixed (byte* resultPtr = result, sha256ResultPtr = sha256Result, sha384ResultPtr = sha384Result, sha512ResultPtr = sha512Result)
+            {
+                Buffer.MemoryCopy(sha256ResultPtr, resultPtr, 32, 32);
+                Buffer.MemoryCopy(sha384ResultPtr, resultPtr + 32, 48, 48);
+                Buffer.MemoryCopy(sha512ResultPtr, resultPtr + 80, 64, 64);
+            }
 
             return result;
         }

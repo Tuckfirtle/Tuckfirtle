@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Threading.Tasks;
 using TheDialgaTeam.Core.Logger;
 using Tuckfirtle.Core.Pow;
@@ -18,11 +19,11 @@ namespace Tuckfirtle.Node
         {
             var pow = new TuckfirtlePow();
 
-            var biggestNumber = new byte[97];
+            var biggestNumber = new byte[33];
             
             for (var i = 0; i < biggestNumber.Length; i++)
             {
-                if (i != 96)
+                if (i != 32)
                     biggestNumber[i] = byte.MaxValue;
                 else
                     biggestNumber[i] = 0;
@@ -31,12 +32,17 @@ namespace Tuckfirtle.Node
             var bigNumber = new BigInteger(biggestNumber);
             var smallestNumber = bigNumber;
 
+            ConsoleLogger.LogMessage($"Biggest Number: {bigNumber.ToString().PadLeft(bigNumber.ToString().Length, '0')}");
+
             for (var i = 0; i < 10000000; i++)
             {
                 var powValue = pow.GetPowValue(i.ToString());
-                var powNumber = new byte[powValue.Length + 1];
-                powNumber[powValue.Length] = 0;
-                powValue.CopyTo(powNumber, 0);
+                var powValueLength = powValue.Length;
+
+                var powNumber = new byte[powValueLength + 1];
+                powNumber[powValueLength] = 0;
+
+                Buffer.BlockCopy(powValue, 0, powNumber, 0, powValueLength);
 
                 var bigInteger = new BigInteger(powNumber);
 

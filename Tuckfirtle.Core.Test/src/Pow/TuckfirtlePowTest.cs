@@ -21,34 +21,7 @@ namespace Tuckfirtle.Core.Test.Pow
         }
 
         [Theory]
-        [InlineData("", new byte[] { 219, 0, 164, 229, 201, 80, 138, 44, 214, 34, 198, 182, 40, 222, 90, 78, 31, 30, 33, 67, 53, 55, 5, 116, 232, 76, 171, 101, 201, 227, 91, 63 })]
-        public void GetAesKeyTest(string jsonData, byte[] expectedResult)
-        {
-            var powData = TuckfirtlePow.GetPowData(jsonData);
-            var aesKey = TuckfirtlePow.GetAesKey(powData);
-            Assert.Equal(aesKey, expectedResult);
-        }
-
-        [Theory]
-        [InlineData("", new byte[] { 238, 126, 86, 36, 106, 81, 191, 254, 189, 88, 239, 239, 181, 155, 97, 221, 232, 205, 63, 138, 153, 128, 221, 70, 36, 78, 250, 161, 158, 245, 57, 92 })]
-        public void GetXorKeyTest(string jsonData, byte[] expectedResult)
-        {
-            var powData = TuckfirtlePow.GetPowData(jsonData);
-            var xorKey = TuckfirtlePow.GetXorKey(powData);
-            Assert.Equal(xorKey, expectedResult);
-        }
-
-        [Theory]
-        [InlineData("", new byte[] { 181, 153, 213, 184, 76, 22, 111, 93, 38, 204, 155, 91, 42, 75, 51, 240, 36, 105, 224, 129, 26, 196, 136, 49, 90, 187, 42, 168, 126, 89, 54, 17 })]
-        public void GetAesDataTest(string jsonData, byte[] expectedResult)
-        {
-            var powData = TuckfirtlePow.GetPowData(jsonData);
-            var aesData = TuckfirtlePow.GetAesData(powData);
-            Assert.Equal(aesData, expectedResult);
-        }
-
-        [Theory]
-        [InlineData("", new byte[] { 105, 58, 78, 200, 18, 118, 150, 158, 16, 113, 126, 66, 19, 229, 51, 174, 44, 165, 74, 239, 111, 144, 152, 71, 175, 158, 146, 16, 115, 89, 179, 94, 249, 113, 161, 102, 144, 109, 87, 249, 141, 24, 243, 191, 112, 112, 34, 171, 125, 161, 235, 77, 72, 226, 91, 31, 16, 80, 155, 227, 63, 170, 189, 134, 54, 95, 207, 174, 246, 126, 116, 234, 196, 11, 195, 224, 89, 137, 168, 74, 148, 216, 186, 110, 37, 180, 227, 230, 170, 15, 115, 11, 141, 54, 219, 92, 101, 147, 87, 182, 184, 228, 166, 111, 48, 71, 26, 146, 96, 223, 90, 125, 61, 170, 171, 70, 39, 255, 136, 202, 133, 249, 98, 168, 253, 4, 150, 85, 65, 155, 19, 159, 101, 99, 88, 163, 135, 26, 16, 88, 219, 5, 248, 28 })]
+        [InlineData("", new byte[] { 247, 113, 27, 246, 94, 59, 76, 221, 1, 48, 189, 181, 84, 164, 165, 185, 244, 34, 237, 187, 64, 116, 220, 176, 9, 250, 241, 26, 64, 39, 22, 33 })]
         public void GetPowValueTest(string jsonData, byte[] expectedResult)
         {
             var powValue = TuckfirtlePow.GetPowValue(jsonData);

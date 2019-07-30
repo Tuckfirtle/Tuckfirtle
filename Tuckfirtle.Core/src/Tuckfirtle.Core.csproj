@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Tuckfirtle.Core</AssemblyName>
     <RootNamespace>Tuckfirtle.Core</RootNamespace>
-    <TargetFrameworks>netstandard2.0;net471;net47;net462;net461;net46;net452;net451;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net471;net47;net462;net461</TargetFrameworks>
     <OutputType>Library</OutputType>
     <PackageId>Tuckfirtle.Core</PackageId>
     <Version>0.0.1.0</Version>
@@ -21,11 +21,11 @@
     <DefineConstants>DEBUG</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

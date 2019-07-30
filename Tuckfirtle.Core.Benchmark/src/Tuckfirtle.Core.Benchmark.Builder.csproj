@@ -23,11 +23,11 @@
     <DefineConstants>DEBUG</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
