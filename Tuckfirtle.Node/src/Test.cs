@@ -34,7 +34,7 @@ namespace Tuckfirtle.Node
 
             Parallel.For(0, 10000000, i =>
             {
-                var powValue = TuckfirtlePow.GetPowValue(i.ToString());
+                var powValue = TuckfirtlePow.GetPowValueUnsafe(i.ToString());
                 var powValueLength = powValue.Length;
 
                 var powNumber = new byte[powValueLength + 1];
