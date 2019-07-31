@@ -4,3 +4,6 @@
 [submodule "TheDialgaTeam.Core.Logger.DependencyInjection"]
 	path = TheDialgaTeam.Core.Logger.DependencyInjection
 	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Logger.DependencyInjection.git
+[submodule "Tuckfirtle.Core"]
+	path = Tuckfirtle.Core
+	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.git
