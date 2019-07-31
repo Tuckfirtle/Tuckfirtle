@@ -1,2 +1,0 @@
-# Tuckfirtle.Core
-Tuckfirtle core.
