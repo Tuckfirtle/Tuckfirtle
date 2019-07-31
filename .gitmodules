@@ -7,3 +7,6 @@
 [submodule "Tuckfirtle.Core"]
 	path = Tuckfirtle.Core
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.git
+[submodule "Tuckfirtle.Core.Benchmark"]
+	path = Tuckfirtle.Core.Benchmark
+	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.Benchmark.git
