@@ -32,7 +32,7 @@ namespace Tuckfirtle.Node
 
             ConsoleLogger.LogMessage($"Biggest Number: {bigNumber.ToString().PadLeft(bigNumber.ToString().Length, '0')}");
 
-            Parallel.For(0, 10000000, i =>
+            Parallel.For(0, int.MaxValue, i =>
             {
                 var powValue = TuckfirtlePow.GetPowValueUnsafe(i.ToString());
                 var powValueLength = powValue.Length;

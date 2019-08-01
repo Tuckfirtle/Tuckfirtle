@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Tuckfirtle.Miner</AssemblyName>
+    <RootNamespace>Tuckfirtle.Miner</RootNamespace>
+    <TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Tuckfirtle.Miner.Program</StartupObject>
+    <ApplicationIcon></ApplicationIcon>
+    <PackageId>Tuckfirtle.Miner</PackageId>
+    <Version>0.0.1.0</Version>
+    <Authors>Yong Jian Ming</Authors>
+    <Company>Tuckfirtle</Company>
+    <Product>Tuckfirtle.Miner</Product>
+    <Description>Tuckfirtle miner.</Description>
+    <PackageProjectUrl>https://github.com/tuckfirtle/Tuckfirtle.Miner</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tuckfirtle/Tuckfirtle.Miner</RepositoryUrl>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TheDialgaTeam.Core.Logger.DependencyInjection\src\TheDialgaTeam.Core.Logger.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\TheDialgaTeam.Core.Logger\src\TheDialgaTeam.Core.Logger.csproj" />
+    <ProjectReference Include="..\..\Tuckfirtle.Core\src\Tuckfirtle.Core.csproj" />
+  </ItemGroup>
+
+</Project>
