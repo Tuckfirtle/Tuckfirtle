@@ -13,3 +13,6 @@
 [submodule "Tuckfirtle.Core.Test"]
 	path = Tuckfirtle.Core.Test
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.Test.git
+[submodule "TheDialgaTeam.Core.DependencyInjection"]
+	path = TheDialgaTeam.Core.DependencyInjection
+	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.DependencyInjection.git
