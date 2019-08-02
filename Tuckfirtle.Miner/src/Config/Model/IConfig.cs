@@ -1,6 +1,6 @@
-﻿namespace Tuckfirtle.Miner.Config
+﻿namespace Tuckfirtle.Miner.Config.Model
 {
-    public interface IConfig
+    internal interface IConfig
     {
         int DonateLevel { get; }
 
@@ -11,9 +11,5 @@
         MiningMode MiningMode { get; }
 
         MiningThread[] Threads { get; }
-
-        void CreateConfig();
-
-        bool LoadConfig();
     }
 }

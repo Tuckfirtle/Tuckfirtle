@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 
-namespace Tuckfirtle.Miner.Config
+namespace Tuckfirtle.Miner.Config.Model
 {
-    public sealed class MiningThread
+    internal sealed class MiningThread
     {
         public ThreadPriority ThreadPriority { get; set; } = ThreadPriority.Normal;
     }

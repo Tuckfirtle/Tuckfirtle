@@ -1,6 +1,6 @@
-﻿namespace Tuckfirtle.Miner.Config
+﻿namespace Tuckfirtle.Miner.Config.Model
 {
-    public sealed class ConfigModel
+    internal sealed class ConfigModel : IConfig
     {
         public int DonateLevel { get; set; }
 

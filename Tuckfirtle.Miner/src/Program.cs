@@ -3,30 +3,23 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using TheDialgaTeam.Core.DependencyInjection;
 using TheDialgaTeam.Core.Logger;
-using TheDialgaTeam.Core.Logger.DependencyInjection;
-using Tuckfirtle.Miner.Config.Json;
+using TheDialgaTeam.Core.Logger.DependencyInjection.Factory;
+using Tuckfirtle.Miner.Bootstrap;
+using Tuckfirtle.Miner.Config;
 
 namespace Tuckfirtle.Miner
 {
-    public static class Program
+    internal static class Program
     {
         private static DependencyManager DependencyManager { get; } = new DependencyManager();
 
-        /// <summary>
-        /// Main execution code begin here.
-        /// </summary>
         public static void Main()
         {
-            DependencyManager.InstallFactory(new ConsoleStreamQueuedTaskLoggerFactoryInstaller());
+            DependencyManager.InstallFactory(new ConsoleStreamQueuedTaskLoggerFactoryInstaller(Console.Out));
+            DependencyManager.InstallFactory(new BootstrapFactoryInstaller());
             DependencyManager.InstallFactory(new JsonConfigFactoryInstaller(Path.Combine(Environment.CurrentDirectory, "config.json")));
 
-            DependencyManager.InstallServices(collection => { collection.AddSingleton<ProgramBootstrap>(); });
-
-            DependencyManager.BuildAndExecute(provider =>
-            {
-                var programBootstrap = provider.GetRequiredService<ProgramBootstrap>();
-                programBootstrap.Execute();
-            }, (provider, exception) =>
+            DependencyManager.BuildAndExecute((provider, exception) =>
             {
                 var consoleLogger = provider.GetRequiredService<IConsoleLogger>() ?? new ConsoleStreamLogger(Console.Error);
 
