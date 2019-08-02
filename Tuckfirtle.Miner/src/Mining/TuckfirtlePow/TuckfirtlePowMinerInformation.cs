@@ -2,8 +2,8 @@
 {
     internal struct TuckfirtlePowMinerInformation
     {
-        public int ThreadAffinity { get; }
+        public int ThreadAffinity { get; set; }
 
-        public ulong StartingNonce { get; }
+        public ulong StartingNonce { get; set; }
     }
 }

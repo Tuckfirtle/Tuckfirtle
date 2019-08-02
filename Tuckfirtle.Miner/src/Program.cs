@@ -5,7 +5,6 @@ using TheDialgaTeam.Core.DependencyInjection;
 using TheDialgaTeam.Core.Logger;
 using TheDialgaTeam.Core.Logger.DependencyInjection.Factory;
 using Tuckfirtle.Miner.Bootstrap.Factory;
-using Tuckfirtle.Miner.Config;
 
 namespace Tuckfirtle.Miner
 {

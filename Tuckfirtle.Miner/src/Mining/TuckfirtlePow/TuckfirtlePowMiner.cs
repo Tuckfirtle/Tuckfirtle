@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using WindowsThread = Tuckfirtle.Miner.Threading.Windows.Thread;
@@ -47,33 +46,22 @@ namespace Tuckfirtle.Miner.Mining.TuckfirtlePow
             MiningThread.Join();
         }
 
-        private unsafe void InternalStartMining()
+        private void InternalStartMining()
         {
-            var powValueUnsignedBytes = new byte[33];
+            var powInformation = PowInformation;
             var currentNonce = MinerInformation.StartingNonce;
 
-            fixed (byte* powValueUnsignedBytesPtr = powValueUnsignedBytes)
+            while (IsRunning)
             {
-                while (IsRunning)
-                {
-                    var powInformation = PowInformation;
-                    var powValueBytes = Core.Pow.TuckfirtlePow.GetPowValueUnsafe($"{powInformation.BlockHeaderTemplate}{currentNonce++}");
-                    var powValueBytesLength = powValueBytes.Length;
+                var blockHeaderTemplate = powInformation.BlockHeaderTemplate;
+                var powValue = Core.Pow.TuckfirtlePow.GetPowValueUnsafe($"{blockHeaderTemplate}{currentNonce++}");
 
-                    fixed (byte* powValueBytesPtr = powValueBytes)
-                    {
-                        *(powValueUnsignedBytesPtr + powValueBytesLength) = 0;
-                        Buffer.MemoryCopy(powValueBytesPtr, powValueUnsignedBytesPtr, 32, 32);
+                if (powValue >= powInformation.TargetPowValue)
+                    continue;
 
-                        var powValue = new BigInteger(powValueUnsignedBytes);
-
-                        if (powValue < powInformation.TargetPowValue)
-                        {
-                            // Found a block!
-                            SubmitAction(new TuckfirtlePowSubmitInformation { Height = powInformation.Height, Nonce = currentNonce });
-                        }
-                    }
-                }
+                // Found a block!
+                SubmitAction(new TuckfirtlePowSubmitInformation { Height = powInformation.Height, BlockHeaderTemplate = blockHeaderTemplate, Nonce = currentNonce - 1, PowValue = powValue });
+                currentNonce = MinerInformation.StartingNonce;
             }
         }
     }

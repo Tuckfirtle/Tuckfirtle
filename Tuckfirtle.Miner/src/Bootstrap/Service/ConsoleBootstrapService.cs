@@ -44,7 +44,7 @@ namespace Tuckfirtle.Miner.Bootstrap.Service
             consoleMessageBuilder.Write(" * ", ConsoleColor.Green, false)
                 .Write("COMMANDS".PadRight(13), false)
                 .Write("h", ConsoleColor.Magenta, false)
-                .WriteLine("ashrate", ConsoleColor.Magenta, false);
+                .WriteLine("ashrate", false);
 
             ConsoleLogger.LogMessage(consoleMessageBuilder.Build());
         }
