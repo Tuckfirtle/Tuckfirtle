@@ -2,10 +2,11 @@
 using System.Threading;
 using TheDialgaTeam.Core.DependencyInjection.Service;
 using TheDialgaTeam.Core.Logger;
+using Tuckfirtle.Miner.Config;
 
-namespace Tuckfirtle.Miner.Config
+namespace Tuckfirtle.Miner.Bootstrap.Service
 {
-    internal sealed class JsonConfigServiceExecutor : IServiceExecutor
+    internal sealed class JsonConfigService : IServiceExecutor
     {
         private JsonConfig JsonConfig { get; }
 
@@ -13,7 +14,7 @@ namespace Tuckfirtle.Miner.Config
 
         private CancellationTokenSource CancellationTokenSource { get; }
 
-        public JsonConfigServiceExecutor(JsonConfig jsonConfig, IConsoleLogger consoleLogger, CancellationTokenSource cancellationTokenSource)
+        public JsonConfigService(JsonConfig jsonConfig, IConsoleLogger consoleLogger, CancellationTokenSource cancellationTokenSource)
         {
             JsonConfig = jsonConfig;
             ConsoleLogger = consoleLogger;

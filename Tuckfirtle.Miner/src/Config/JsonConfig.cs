@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using Tuckfirtle.Miner.Config.Model;
 
@@ -35,8 +36,8 @@ namespace Tuckfirtle.Miner.Config
         {
             var config = ConfigModel;
 
-            if (config.DonateLevel < 1)
-                config.DonateLevel = 1;
+            if (config.DonateLevel < 0)
+                config.DonateLevel = 0;
 
             if (config.DonateLevel > 100)
                 config.DonateLevel = 100;
@@ -44,8 +45,27 @@ namespace Tuckfirtle.Miner.Config
             if (config.PrintTime < 1)
                 config.PrintTime = 1;
 
-            if (config.SafeMode && config.Threads.Length > Environment.ProcessorCount)
-                throw new ArgumentException($"Excessive amount of thread allocated which may cause unstable results. Use \"{nameof(ConfigModel.SafeMode)}: false\" if you intend to use this configuration.");
+            var miningThreads = config.Threads;
+
+            if (config.SafeMode && miningThreads.Length > Environment.ProcessorCount)
+                throw new ArgumentException($"Excessive amount of thread allocated which may cause unstable results. Use \"{nameof(ConfigModel.SafeMode)}: false, if you intend to use this configuration.");
+
+            foreach (var configThread in miningThreads)
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    if (configThread.AffinityToCpu < -1)
+                        configThread.AffinityToCpu = -1;
+
+                    if (config.SafeMode && configThread.AffinityToCpu >= Environment.ProcessorCount)
+                        throw new ArgumentException($"Invalid affinity set for mining thread. Use \"{nameof(ConfigModel.SafeMode)}\": false, if you intend to use this configuration.");
+                }
+                else
+                {
+                    if (configThread.AffinityToCpu > -1)
+                        configThread.AffinityToCpu = -1;
+                }
+            }
         }
     }
 }

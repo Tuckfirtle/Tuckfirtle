@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TheDialgaTeam.Core.DependencyInjection;
 using TheDialgaTeam.Core.Logger;
 using TheDialgaTeam.Core.Logger.DependencyInjection.Factory;
-using Tuckfirtle.Miner.Bootstrap;
+using Tuckfirtle.Miner.Bootstrap.Factory;
 using Tuckfirtle.Miner.Config;
 
 namespace Tuckfirtle.Miner
@@ -17,7 +17,9 @@ namespace Tuckfirtle.Miner
         {
             DependencyManager.InstallFactory(new ConsoleStreamQueuedTaskLoggerFactoryInstaller(Console.Out));
             DependencyManager.InstallFactory(new BootstrapFactoryInstaller());
-            DependencyManager.InstallFactory(new JsonConfigFactoryInstaller(Path.Combine(Environment.CurrentDirectory, "config.json")));
+            DependencyManager.InstallFactory(new JsonConfigFactoryInstaller(Path.Combine(Environment.CurrentDirectory, "Config.json")));
+            DependencyManager.InstallFactory(new ConsoleBootstrapFactoryInstaller());
+            DependencyManager.InstallFactory(new MiningBootstrapFactoryInstaller());
 
             DependencyManager.BuildAndExecute((provider, exception) =>
             {

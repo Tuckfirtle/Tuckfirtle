@@ -1,14 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TheDialgaTeam.Core.DependencyInjection;
 using TheDialgaTeam.Core.DependencyInjection.Factory;
-using TheDialgaTeam.Core.DependencyInjection.Service;
+using Tuckfirtle.Miner.Bootstrap.Service;
 
-namespace Tuckfirtle.Miner.Bootstrap
+namespace Tuckfirtle.Miner.Bootstrap.Factory
 {
     internal sealed class BootstrapFactoryInstaller : IFactoryInstaller
     {
         public void Install(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IServiceExecutor, BootstrapServiceExecutor>();
+            serviceCollection.AddInterfacesAsSingleton<BootstrapService>();
         }
     }
 }

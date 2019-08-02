@@ -3,9 +3,9 @@ using System.Reflection;
 using System.Runtime.Versioning;
 using TheDialgaTeam.Core.DependencyInjection.Service;
 
-namespace Tuckfirtle.Miner.Bootstrap
+namespace Tuckfirtle.Miner.Bootstrap.Service
 {
-    public sealed class BootstrapServiceExecutor : IServiceExecutor
+    internal sealed class BootstrapService : IServiceExecutor
     {
         public void Execute()
         {

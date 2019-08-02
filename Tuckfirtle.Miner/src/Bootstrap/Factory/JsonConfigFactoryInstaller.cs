@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TheDialgaTeam.Core.DependencyInjection;
 using TheDialgaTeam.Core.DependencyInjection.Factory;
-using TheDialgaTeam.Core.DependencyInjection.Service;
-using Tuckfirtle.Miner.Config.Model;
+using Tuckfirtle.Miner.Bootstrap.Service;
+using Tuckfirtle.Miner.Config;
 
-namespace Tuckfirtle.Miner.Config
+namespace Tuckfirtle.Miner.Bootstrap.Factory
 {
     internal sealed class JsonConfigFactoryInstaller : IFactoryInstaller
     {
@@ -16,9 +17,8 @@ namespace Tuckfirtle.Miner.Config
 
         public void Install(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton(new JsonConfig(ConfigFilePath));
-            serviceCollection.AddSingleton<IConfig>(provider => provider.GetRequiredService<JsonConfig>());
-            serviceCollection.AddSingleton<IServiceExecutor, JsonConfigServiceExecutor>();
+            serviceCollection.AddInterfacesAndSelfAsSingleton(new JsonConfig(ConfigFilePath));
+            serviceCollection.AddInterfacesAsSingleton<JsonConfigService>();
         }
     }
 }
