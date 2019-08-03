@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tuckfirtle.Core.Utility;
@@ -57,12 +58,12 @@ namespace Tuckfirtle.Miner.Mining.TuckfirtlePow
                         if (DateTimeOffset.Now > FoundBlocks[FoundBlocks.Count - 1].DateTime.AddMinutes(1 + RenewIndex))
                         {
                             RenewIndex++;
-                            powInformation.TargetPowValue = FoundBlocks.Count - 1 - RenewIndex < 0 ? DifficultyUtility.GetTargetPowValue(1000) : FoundBlocks[FoundBlocks.Count - 1 - RenewIndex].TargetPowValue;
+                            powInformation.TargetPowValue = FoundBlocks.Count - 1 - RenewIndex < 0 ? DifficultyUtility.GetTargetPowValue(1000) : FoundBlocks.Select(a => a.TargetPowValue).OrderBy(a => a).SkipWhile(a => a <= powInformation.TargetPowValue).FirstOrDefault();
                             NewJob?.Invoke(this, powInformation);
                         }
                     }
 
-                    await Task.Delay(1000).ConfigureAwait(false);
+                    await Task.Delay(1).ConfigureAwait(false);
                 }
             });
         }

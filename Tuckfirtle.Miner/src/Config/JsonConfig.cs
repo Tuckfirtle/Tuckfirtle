@@ -52,18 +52,15 @@ namespace Tuckfirtle.Miner.Config
 
             foreach (var configThread in miningThreads)
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    configThread.AffinityToCpu = -1;
+                else
                 {
                     if (configThread.AffinityToCpu < -1)
                         configThread.AffinityToCpu = -1;
 
                     if (config.SafeMode && configThread.AffinityToCpu >= Environment.ProcessorCount)
                         throw new ArgumentException($"Invalid affinity set for mining thread. Use \"{nameof(ConfigModel.SafeMode)}\": false, if you intend to use this configuration.");
-                }
-                else
-                {
-                    if (configThread.AffinityToCpu > -1)
-                        configThread.AffinityToCpu = -1;
                 }
             }
         }

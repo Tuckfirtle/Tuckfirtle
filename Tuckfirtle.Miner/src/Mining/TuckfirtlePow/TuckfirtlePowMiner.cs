@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Threading;
-using WindowsThread = Tuckfirtle.Miner.Threading.Windows.Thread;
+using Tuckfirtle.Miner.Threading;
 
 namespace Tuckfirtle.Miner.Mining.TuckfirtlePow
 {
@@ -22,16 +20,7 @@ namespace Tuckfirtle.Miner.Mining.TuckfirtlePow
             MinerInformation = minerInformation;
             PowInformation = powInformation;
             SubmitAction = submitAction;
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var windowsThread = new WindowsThread(InternalStartMining) { ProcessorAffinity = minerInformation.ThreadAffinity };
-                windowsThread.ManagedThread.IsBackground = true;
-
-                MiningThread = windowsThread.ManagedThread;
-            }
-            else
-                MiningThread = new Thread(InternalStartMining) { IsBackground = true };
+            MiningThread = new Thread(InternalStartMining) { ProcessorAffinity = minerInformation.ThreadAffinity, IsBackground = true };
         }
 
         public void StartMining()
