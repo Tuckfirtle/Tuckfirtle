@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\TheDialgaTeam.Core.DependencyInjection\src\TheDialgaTeam.Core.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\TheDialgaTeam.Core.Logger.DependencyInjection\src\TheDialgaTeam.Core.Logger.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\TheDialgaTeam.Core.Logger\src\TheDialgaTeam.Core.Logger.csproj" />
     <ProjectReference Include="..\..\Tuckfirtle.Core\src\Tuckfirtle.Core.csproj" />
