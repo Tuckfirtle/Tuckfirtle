@@ -1,7 +1,7 @@
 # Tuckfirtle
 This is the main tuckfirtle cryptocurrency repository.
 
-#### Table of contents
+#### Table of contents:
 - [About](#About)
 - [Basic Information](#Basic-Information)
 - [Donations](#Donations)
