@@ -14,7 +14,7 @@ namespace Tuckfirtle.Miner
 
         public static void Main()
         {
-            DependencyManager.InstallFactory(new ConsoleStreamQueuedTaskLoggerFactoryInstaller(Console.Out));
+            DependencyManager.InstallFactory(new ConsoleStreamQueuedTaskLoggerFactoryInstaller());
             DependencyManager.InstallFactory(new BootstrapFactoryInstaller());
             DependencyManager.InstallFactory(new JsonConfigFactoryInstaller(Path.Combine(Environment.CurrentDirectory, "Config.json")));
             DependencyManager.InstallFactory(new ConsoleBootstrapFactoryInstaller());
