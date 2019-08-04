@@ -8,8 +8,10 @@ This is the main tuckfirtle cryptocurrency repository.
 - [Developers](#Developers)
 
 ## About
-Tuckfirtle is a new original cryptocurrency coin written from scratch in C#. This is an educational project as it is designed to be simple for any developer to follow and learn together.
-The aim of this project is to equip new entry level developers into cryptocurrency and make an original coin together. As a result, we also build a healthy relationship with the community around us.
+Tuckfirtle is a new original cryptocurrency coin written from scratch in C#.
+This is an educational project as it is designed to be simple for any developer to follow and learn together.
+The aim of this project is to equip new entry level developers into cryptocurrency and make an original coin together.
+As a result, we also build a healthy relationship with the community around us.
 The reason not to fork an existing coin and use their code as base is due to complexity and the dependencies needed to build a coin is extremely ridiculous. Forking existing coin tend to not do well in long run and thus the reason to write from scratch.
 
 This coin will aim to be fully decentralized with variable blocktime and supply to create incentive to mine. Transaction may not be instant but it can happen in less than a minute to 5 minutes long with variable blocktime.
@@ -20,7 +22,7 @@ More information about this coin will be written when we have iron out the idea.
 - Coin Name: Tuckfirtle (TF)
 - Github: https://github.com/Tuckfirtle/Tuckfirtle
 - Discord: http://discord.gg/eEXTB3T
-- Blockchain Mining Type: Proof of work (POW)
+- Currency Mining Type: Proof of work (POW)
 - POW Mining Algorithm: [TuckfirtlePow](https://github.com/Tuckfirtle/Tuckfirtle.Core/blob/master/src/Pow/TuckfirtlePow.cs)
 - Target Block time: 1 Minute
 - Target Block reward: 1 TF
