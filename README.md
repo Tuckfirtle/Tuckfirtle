@@ -15,7 +15,7 @@ As a result, we also build a healthy relationship with the community around us.
 The reason not to fork an existing coin and use their code as base is due to complexity and the dependencies needed to build a coin is extremely ridiculous. Forking existing coin tend to not do well in long run and thus the reason to write from scratch.
 
 This coin will aim to be fully decentralized with variable blocktime and supply to create incentive to mine. Transaction may not be instant but it can happen in less than a minute to 5 minutes long with variable blocktime.
-The POW algorithm is brand new and it is being tested for suitability for asic resistance.
+The POW algorithm is brand new and require more test to determine if it is asic resistance.
 More information about this coin will be written when we have iron out the idea.
 
 ## Basic Information
@@ -24,8 +24,8 @@ More information about this coin will be written when we have iron out the idea.
 - Discord: http://discord.gg/eEXTB3T
 - Currency Mining Type: Proof of work (POW)
 - POW Mining Algorithm: [TuckfirtlePow](https://github.com/Tuckfirtle/Tuckfirtle.Core/blob/master/src/Pow/TuckfirtlePow.cs)
-- Target Block time: 1 Minute
-- Target Block reward: 1 TF
+- Block Time: Variable based on number of miners and their corresponding mining speed. The difficulty will drop every minute if it is not found.
+- Block Reward: Capped at 1 TF/Minute. It will scale down if you found the block too early.
 - Total Supply: TBD
 - Premine: 0%
 - CPU/ARM Minable: Yes
