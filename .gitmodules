@@ -22,3 +22,6 @@
 [submodule "Tuckfirtle.Node"]
 	path = Tuckfirtle.Node
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Node.git
+[submodule "Tuckfirtle.Miner"]
+	path = Tuckfirtle.Miner
+	url = https://github.com/Tuckfirtle/Tuckfirtle.Miner.git
