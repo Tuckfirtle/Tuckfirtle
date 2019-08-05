@@ -1,2 +1,0 @@
-# Tuckfirtle.Miner
-Tuckfirtle miner.

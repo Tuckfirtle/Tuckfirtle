@@ -19,3 +19,6 @@
 [submodule "Open.NAT"]
 	path = Open.NAT
 	url = https://github.com/lontivero/Open.NAT.git
+[submodule "Tuckfirtle.Node"]
+	path = Tuckfirtle.Node
+	url = https://github.com/Tuckfirtle/Tuckfirtle.Node.git
