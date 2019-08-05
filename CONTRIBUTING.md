@@ -1,5 +1,5 @@
 # Contributing to Tuckfirtle
-Thank you for joining and interesting in contributing to Tuckfirtle project!
+Thank you for joining and interested in contributing to Tuckfirtle project!
 
 We have a set of contributing guildlines on how the code is written and what are the typical convention to take note of when writting codes.
 
