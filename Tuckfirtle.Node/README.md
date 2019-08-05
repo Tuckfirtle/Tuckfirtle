@@ -1,2 +1,0 @@
-# Tuckfirtle.Node
-Tuckfirtle node.
