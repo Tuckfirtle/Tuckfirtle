@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (C) 2019, The Tuckfirtle Developers
+// 
+// Please see the included LICENSE file for more information.
+
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;

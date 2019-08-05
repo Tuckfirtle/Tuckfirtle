@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (C) 2019, The Tuckfirtle Developers
+// 
+// Please see the included LICENSE file for more information.
+
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -10,7 +14,7 @@ namespace Tuckfirtle.Miner.Threading
     internal sealed class Thread
     {
         public int ProcessorAffinity { get; set; }
-        
+
         public CultureInfo CurrentCulture
         {
             get => ManagedThread.CurrentCulture;

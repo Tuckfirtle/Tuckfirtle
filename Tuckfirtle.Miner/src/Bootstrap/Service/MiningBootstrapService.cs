@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (C) 2019, The Tuckfirtle Developers
+// 
+// Please see the included LICENSE file for more information.
+
+using System;
 using TheDialgaTeam.Core.DependencyInjection.Service;
 using TheDialgaTeam.Core.Logger;
 using Tuckfirtle.Core.Pow;
@@ -80,7 +84,7 @@ namespace Tuckfirtle.Miner.Bootstrap.Service
                 miners[i] = new TuckfirtlePowMiner(new TuckfirtlePowMinerInformation
                 {
                     ThreadAffinity = config.Threads[i].AffinityToCpu < 0 ? 0 : 1 << config.Threads[i].AffinityToCpu,
-                    StartingNonce = (ulong.MaxValue / (ulong) threadCount) * (ulong) i
+                    StartingNonce = ulong.MaxValue / (ulong) threadCount * (ulong) i
                 }, benchmarkTest.PowInformation, benchmarkTest.SubmitTestResult);
 
                 miners[i].StartMining();
