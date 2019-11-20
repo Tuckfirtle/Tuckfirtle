@@ -25,3 +25,9 @@
 [submodule "Tuckfirtle.Miner"]
 	path = Tuckfirtle.Miner
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Miner.git
+[submodule "Tuckfirtle.OpenQuantumSafe"]
+	path = Tuckfirtle.OpenQuantumSafe
+	url = https://github.com/Tuckfirtle/Tuckfirtle.OpenQuantumSafe.git
+[submodule "Tuckfirtle.OpenQuantumSafe.Test"]
+	path = Tuckfirtle.OpenQuantumSafe.Test
+	url = https://github.com/Tuckfirtle/Tuckfirtle.OpenQuantumSafe.Test.git

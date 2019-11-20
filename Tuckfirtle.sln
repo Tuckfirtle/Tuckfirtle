@@ -29,6 +29,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Core.Dependen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Open.Nat", "Open.NAT\Open.Nat\Open.Nat.csproj", "{2851969F-8CDF-4CA6-AC9F-46FB85D970F4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.OpenQuantumSafe", "Tuckfirtle.OpenQuantumSafe\src\Tuckfirtle.OpenQuantumSafe.csproj", "{989A04B7-93D1-4702-A979-6A431B5F6490}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenQuantumSafe", "OpenQuantumSafe", "{620AD9CB-AE95-4345-ACAF-1B069A119DD9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.OpenQuantumSafe.Test", "Tuckfirtle.OpenQuantumSafe.Test\src\Tuckfirtle.OpenQuantumSafe.Test.csproj", "{53437430-CAA6-471B-A619-57BA774A954A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +153,30 @@ Global
 		{2851969F-8CDF-4CA6-AC9F-46FB85D970F4}.Release|x64.Build.0 = Release|x64
 		{2851969F-8CDF-4CA6-AC9F-46FB85D970F4}.Release|x86.ActiveCfg = Release|x86
 		{2851969F-8CDF-4CA6-AC9F-46FB85D970F4}.Release|x86.Build.0 = Release|x86
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Debug|Any CPU.ActiveCfg = Debug_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Debug|Any CPU.Build.0 = Debug_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Debug|x64.ActiveCfg = Debug_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Debug|x64.Build.0 = Debug_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Debug|x86.ActiveCfg = Debug_Win|x86
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Debug|x86.Build.0 = Debug_Win|x86
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Release|Any CPU.ActiveCfg = Release_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Release|Any CPU.Build.0 = Release_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Release|x64.ActiveCfg = Release_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Release|x64.Build.0 = Release_Win|x64
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Release|x86.ActiveCfg = Release_Win|x86
+		{989A04B7-93D1-4702-A979-6A431B5F6490}.Release|x86.Build.0 = Release_Win|x86
+		{53437430-CAA6-471B-A619-57BA774A954A}.Debug|Any CPU.ActiveCfg = Debug_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Debug|Any CPU.Build.0 = Debug_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Debug|x64.ActiveCfg = Debug_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Debug|x64.Build.0 = Debug_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Debug|x86.ActiveCfg = Debug_Win|x86
+		{53437430-CAA6-471B-A619-57BA774A954A}.Debug|x86.Build.0 = Debug_Win|x86
+		{53437430-CAA6-471B-A619-57BA774A954A}.Release|Any CPU.ActiveCfg = Release_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Release|Any CPU.Build.0 = Release_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Release|x64.ActiveCfg = Release_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Release|x64.Build.0 = Release_Win|x64
+		{53437430-CAA6-471B-A619-57BA774A954A}.Release|x86.ActiveCfg = Release_Win|x86
+		{53437430-CAA6-471B-A619-57BA774A954A}.Release|x86.Build.0 = Release_Win|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,6 +191,8 @@ Global
 		{C45EAF01-30C4-4B8E-BA96-FA9C52AE9934} = {866C6122-C2A2-47FB-B0DC-0D587506BB87}
 		{20EF959B-E6E2-4DC4-82B3-3233F2798D3C} = {52602772-C53F-4FCB-9829-F8542A184075}
 		{2851969F-8CDF-4CA6-AC9F-46FB85D970F4} = {52602772-C53F-4FCB-9829-F8542A184075}
+		{989A04B7-93D1-4702-A979-6A431B5F6490} = {620AD9CB-AE95-4345-ACAF-1B069A119DD9}
+		{53437430-CAA6-471B-A619-57BA774A954A} = {620AD9CB-AE95-4345-ACAF-1B069A119DD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D552F63B-BFF5-4261-97D2-5329C6AF326F}
