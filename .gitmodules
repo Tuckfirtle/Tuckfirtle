@@ -31,3 +31,6 @@
 [submodule "Tuckfirtle.OpenQuantumSafe.Test"]
 	path = Tuckfirtle.OpenQuantumSafe.Test
 	url = https://github.com/Tuckfirtle/Tuckfirtle.OpenQuantumSafe.Test.git
+[submodule "TheDialgaTeam.Core.Task"]
+	path = TheDialgaTeam.Core.Task
+	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Task.git

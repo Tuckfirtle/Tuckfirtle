@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenQuantumSafe", "OpenQuan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.OpenQuantumSafe.Test", "Tuckfirtle.OpenQuantumSafe.Test\src\Tuckfirtle.OpenQuantumSafe.Test.csproj", "{53437430-CAA6-471B-A619-57BA774A954A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Core.Task", "TheDialgaTeam.Core.Task\src\TheDialgaTeam.Core.Task.csproj", "{54A83E6C-FB99-4690-A680-C74853E7AE4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_linux|arm = Debug_linux|arm
@@ -453,6 +455,42 @@ Global
 		{53437430-CAA6-471B-A619-57BA774A954A}.Release_win|x64.Build.0 = Release_win|x64
 		{53437430-CAA6-471B-A619-57BA774A954A}.Release_win|x86.ActiveCfg = Release_win|x86
 		{53437430-CAA6-471B-A619-57BA774A954A}.Release_win|x86.Build.0 = Release_win|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_linux|arm.ActiveCfg = Debug_linux|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_linux|arm.Build.0 = Debug_linux|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_linux|x64.ActiveCfg = Debug_linux|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_linux|x64.Build.0 = Debug_linux|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_linux|x86.ActiveCfg = Debug_linux|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_linux|x86.Build.0 = Debug_linux|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_osx|arm.ActiveCfg = Debug_osx|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_osx|arm.Build.0 = Debug_osx|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_osx|x64.ActiveCfg = Debug_osx|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_osx|x64.Build.0 = Debug_osx|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_osx|x86.ActiveCfg = Debug_osx|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_osx|x86.Build.0 = Debug_osx|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_win|arm.ActiveCfg = Debug_win|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_win|arm.Build.0 = Debug_win|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_win|x64.ActiveCfg = Debug_win|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_win|x64.Build.0 = Debug_win|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_win|x86.ActiveCfg = Debug_win|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Debug_win|x86.Build.0 = Debug_win|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_linux|arm.ActiveCfg = Release_linux|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_linux|arm.Build.0 = Release_linux|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_linux|x64.ActiveCfg = Release_linux|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_linux|x64.Build.0 = Release_linux|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_linux|x86.ActiveCfg = Release_linux|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_linux|x86.Build.0 = Release_linux|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_osx|arm.ActiveCfg = Release_osx|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_osx|arm.Build.0 = Release_osx|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_osx|x64.ActiveCfg = Release_osx|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_osx|x64.Build.0 = Release_osx|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_osx|x86.ActiveCfg = Release_osx|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_osx|x86.Build.0 = Release_osx|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_win|arm.ActiveCfg = Release_win|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_win|arm.Build.0 = Release_win|arm
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_win|x64.ActiveCfg = Release_win|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_win|x64.Build.0 = Release_win|x64
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_win|x86.ActiveCfg = Release_win|x86
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C}.Release_win|x86.Build.0 = Release_win|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -469,6 +507,7 @@ Global
 		{2851969F-8CDF-4CA6-AC9F-46FB85D970F4} = {52602772-C53F-4FCB-9829-F8542A184075}
 		{989A04B7-93D1-4702-A979-6A431B5F6490} = {620AD9CB-AE95-4345-ACAF-1B069A119DD9}
 		{53437430-CAA6-471B-A619-57BA774A954A} = {620AD9CB-AE95-4345-ACAF-1B069A119DD9}
+		{54A83E6C-FB99-4690-A680-C74853E7AE4C} = {52602772-C53F-4FCB-9829-F8542A184075}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D552F63B-BFF5-4261-97D2-5329C6AF326F}
