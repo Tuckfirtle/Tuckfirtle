@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenQuantumSafe", "OpenQuan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuckfirtle.OpenQuantumSafe.Test", "Tuckfirtle.OpenQuantumSafe.Test\src\Tuckfirtle.OpenQuantumSafe.Test.csproj", "{53437430-CAA6-471B-A619-57BA774A954A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Core.Task", "TheDialgaTeam.Core.Task\src\TheDialgaTeam.Core.Task.csproj", "{54A83E6C-FB99-4690-A680-C74853E7AE4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDialgaTeam.Core.Tasks", "TheDialgaTeam.Core.Task\src\TheDialgaTeam.Core.Tasks.csproj", "{54A83E6C-FB99-4690-A680-C74853E7AE4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
