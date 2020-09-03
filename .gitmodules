@@ -1,30 +1,21 @@
+[submodule "Open.NAT"]
+	path = Open.NAT
+    url = https://github.com/lontivero/Open.NAT.git
 [submodule "TheDialgaTeam.Core.Logger"]
 	path = TheDialgaTeam.Core.Logger
 	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Logger.git
-[submodule "TheDialgaTeam.Core.Logger.DependencyInjection"]
-	path = TheDialgaTeam.Core.Logger.DependencyInjection
-	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Logger.DependencyInjection.git
 [submodule "Tuckfirtle.Core"]
 	path = Tuckfirtle.Core
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.git
 [submodule "Tuckfirtle.Core.Benchmark"]
 	path = Tuckfirtle.Core.Benchmark
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.Benchmark.git
-[submodule "TheDialgaTeam.Core.DependencyInjection"]
-	path = TheDialgaTeam.Core.DependencyInjection
-	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.DependencyInjection.git
-[submodule "Open.NAT"]
-	path = Open.NAT
-	url = https://github.com/lontivero/Open.NAT.git
-[submodule "Tuckfirtle.Node"]
-	path = Tuckfirtle.Node
-	url = https://github.com/Tuckfirtle/Tuckfirtle.Node.git
 [submodule "Tuckfirtle.Miner"]
 	path = Tuckfirtle.Miner
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Miner.git
+[submodule "Tuckfirtle.Node"]
+	path = Tuckfirtle.Node
+	url = https://github.com/Tuckfirtle/Tuckfirtle.Node.git
 [submodule "Tuckfirtle.OpenQuantumSafe"]
 	path = Tuckfirtle.OpenQuantumSafe
 	url = https://github.com/Tuckfirtle/Tuckfirtle.OpenQuantumSafe.git
-[submodule "TheDialgaTeam.Core.Tasks"]
-	path = TheDialgaTeam.Core.Tasks
-	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Tasks.git
