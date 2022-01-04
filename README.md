@@ -24,26 +24,18 @@ The block will be created as soon as the block is found. The miner rewards is ca
 There will be no transaction limit per block on the chain. If the node can handle more, it will include more transactions in one go.
 There will not be much privacy equipped like Monero did with ring signature and mixins. These are reserved for future forks of the coin.
 
-The POW algorithm is brand new and written to look similar to [CryptoNight](https://cryptonote.org/cns/cns008.txt). You can refer to the links below to have an idea how it works.
-It is not proven to be asic resistance but the POW can be changed to solve that.
-
 More information about this coin will be written when we have iron out the idea.
 
 ## Basic Information
 - Coin Name: Tuckfirtle (TF)
 - Github: https://github.com/Tuckfirtle/Tuckfirtle
 - Discord: http://discord.gg/eEXTB3T
-- Pre-ANN: https://bitcointalk.org/index.php?topic=5172164
 - Currency Mining Type: Proof of work (POW)
-- POW Mining Algorithm: [TuckfirtlePow](https://github.com/Tuckfirtle/Tuckfirtle.Core/blob/master/src/Pow/TuckfirtlePow.cs)
+- POW Mining Algorithm: RandomX
 - Minimum Block Time: 1 second (Difficulty will drop every minute of mining if it is not found)
 - Block Reward: Capped at 1 TF/Minute.
 - Total Supply: Infinity. (Based on the chain limitation, it would most likely be 184,467,440,737 TF aprox 350965.450412861 years to reach)
 - Premine: 0%
-- CPU/ARM Minable: Yes
-- GPU/FPGA Minable: Possible but it may not be as efficient as CPU with the memory hard loop. (This is not proven to be true as of now.)
-- ASIC Minable: Could be possible but the efficiency should not be as fast as CPU with the memory hard loop. (This is not proven to be true as of now.)
-- Pool Mining: Yes
 
 ## Donations
 - BTC: `3Dc5jpiyuts136YhamcRbAeue7mi44gW8d`
