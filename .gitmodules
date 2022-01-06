@@ -1,15 +1,6 @@
-[submodule "Open.NAT"]
-	path = Open.NAT
-    url = https://github.com/lontivero/Open.NAT.git
-[submodule "TheDialgaTeam.Core.Logger"]
-	path = TheDialgaTeam.Core.Logger
-	url = https://github.com/TheDialgaTeam/TheDialgaTeam.Core.Logger.git
 [submodule "Tuckfirtle.Core"]
 	path = Tuckfirtle.Core
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.git
-[submodule "Tuckfirtle.Core.Benchmark"]
-	path = Tuckfirtle.Core.Benchmark
-	url = https://github.com/Tuckfirtle/Tuckfirtle.Core.Benchmark.git
 [submodule "Tuckfirtle.Miner"]
 	path = Tuckfirtle.Miner
 	url = https://github.com/Tuckfirtle/Tuckfirtle.Miner.git
